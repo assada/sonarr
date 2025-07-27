@@ -229,17 +229,7 @@ Package()
 
     IFS='-' read -ra SPLIT <<< "$runtime"
 
-    case "${SPLIT[0]}" in
-        linux|freebsd*)
-            PackageLinux "$framework" "$runtime"
-            ;;
-        win)
-            PackageWindows "$framework" "$runtime"
-            ;;
-        osx)
-            PackageMacOS "$framework" "$runtime"
-            ;;
-    esac
+    PackageLinux "$framework" "$runtime"
 }
 
 PackageTests()
@@ -382,32 +372,16 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [ "$ENABLE_EXTRA_PLATFORMS_IN_SDK" = "YES" ];
-then
-    EnableExtraPlatformsInSDK
-fi
-
 if [ "$BACKEND" = "YES" ];
 then
     UpdateVersionNumber
-    if [ "$ENABLE_EXTRA_PLATFORMS" = "YES" ];
-    then
-        EnableExtraPlatforms
-    fi
 
     Build
 
     if [[ -z "$RID" || -z "$FRAMEWORK" ]];
     then
-        PackageTests "$framework" "win-x64"
-        PackageTests "$framework" "win-x86"
         PackageTests "$framework" "linux-x64"
         PackageTests "$framework" "linux-musl-x64"
-        PackageTests "$framework" "osx-x64"
-        if [ "$ENABLE_EXTRA_PLATFORMS" = "YES" ];
-        then
-            PackageTests "$framework" "freebsd-x64"
-        fi
     else
         PackageTests "$FRAMEWORK" "$RID"
     fi
@@ -434,19 +408,11 @@ then
 
     if [[ -z "$RID" || -z "$FRAMEWORK" ]];
     then
-        Package "$framework" "win-x64"
-        Package "$framework" "win-x86"
         Package "$framework" "linux-x64"
         Package "$framework" "linux-musl-x64"
         Package "$framework" "linux-arm64"
         Package "$framework" "linux-musl-arm64"
         Package "$framework" "linux-arm"
-        Package "$framework" "osx-x64"
-        Package "$framework" "osx-arm64"
-        if [ "$ENABLE_EXTRA_PLATFORMS" = "YES" ];
-        then
-            Package "$framework" "freebsd-x64"
-        fi
     else
         Package "$FRAMEWORK" "$RID"
     fi
