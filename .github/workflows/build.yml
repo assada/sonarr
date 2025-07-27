@@ -46,8 +46,8 @@ jobs:
         id: variables
         shell: bash
         run: |
-          # Add 800 to the build number because GitHub won't let us pick an arbitrary starting point
-          SONARR_VERSION="${{ env.VERSION }}.$((${{ github.run_number }}+800))"
+          # Add 2941 to the build number because GitHub won't let us pick an arbitrary starting point
+          SONARR_VERSION="${{ env.VERSION }}.$((${{ github.run_number }}+2941))"
           DOTNET_VERSION=$(jq -r '.sdk.version' global.json)
 
           echo "SDK_PATH=${{ env.DOTNET_ROOT }}/sdk/${DOTNET_VERSION}" >> "$GITHUB_ENV"
