@@ -283,6 +283,10 @@ namespace NzbDrone.Core.Parser
                 new Regex(@"^(?<title>(?:(?!\s?\[S\d).)*?)[-._ ]+\[S(?<season>(?<!\d+)\d{1,2}(?!\d+))(?:[E-]{1,2}(?<episode>(?<!\d+)\d{1,2}(?!\d+)))+\](?![ ]*\/)",
                           RegexOptions.IgnoreCase | RegexOptions.Compiled),
 
+                // Multi-episode with episodes (Foundation (S3) (2025) WEB-DL 1080p 2xUkr/Eng | Sub Ukr/Eng (S3E1-4 of 10))
+                new Regex(@"^(?<title>.*?)[-._ ].*\(S(?<season>\d{1,2})(?:[E-]{1,2}(?<episode>\d{1,2}))+(?:[._ ]+of[._ ]+\d+)?\)$",
+                          RegexOptions.IgnoreCase | RegexOptions.Compiled),
+
                 // Multi-episode with episodes in brackets (Series Title (S01E11E12) or Series Title (S01E11-12))
                 new Regex(@"^(?<title>(?:(?!\s?\(S\d).)*?)[-._ ]+\(S(?<season>(?<!\d+)\d{1,2}(?!\d+))(?:[E-]{1,2}(?<episode>(?<!\d+)\d{1,2}(?!\d+)))+\)(?![ ]*\/)",
                           RegexOptions.IgnoreCase | RegexOptions.Compiled),
